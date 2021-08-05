@@ -16,8 +16,8 @@ class VehicleModelsViewModel {
     // MARK: - read
     var statusString: String {
         let correntlyAnsweredCount = targetAnswers.intersection(userAnswered).count
-        let wrongAnswetsCount = userAnswered.subtracting(targetAnswers).count
-        return "\(targetAnswers.count) models, you got \(correntlyAnsweredCount) correct, \(wrongAnswetsCount) wrong"
+        let totalTriesCount = userAnswered.count
+        return "\(targetAnswers.count) models, \(correntlyAnsweredCount) correct, tried \(totalTriesCount) times"
     }
     
     var sortedCurrentlyCorrectAnswers: [(String,Bool)] {
@@ -53,4 +53,4 @@ class VehicleModelsViewModel {
             .map{($0,status)}
     }
     
-}
+}//End Of ViewModel

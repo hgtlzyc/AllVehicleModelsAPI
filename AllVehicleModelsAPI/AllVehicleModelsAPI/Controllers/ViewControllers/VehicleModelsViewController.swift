@@ -179,7 +179,7 @@ extension VehicleModelsViewController {
                 .filter{
                     String($0).range(of: "[A-Z0-9]", options: .regularExpression) != nil
                 }
-    }
+    }//
     
     
     // MARK: - VM helpers
