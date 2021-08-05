@@ -8,7 +8,7 @@
 import Foundation
 
 enum ModelsError: LocalizedError {
-    case idOutOfRange
+    case idOutOfRange(Int)
     case unableToGenerateURLWithString(String)
     case thrownError(Error,Int?)
     case unableToDecodeData(Error)
@@ -16,8 +16,8 @@ enum ModelsError: LocalizedError {
     
     var errorDescription: String? {
         switch self {
-        case .idOutOfRange:
-            return "id out of range"
+        case .idOutOfRange(let id):
+            return "id out of range \(id)"
         case .unableToGenerateURLWithString(_):
             return "URL not valid"
         case let .thrownError(err, code):
@@ -48,7 +48,7 @@ class VehicleModelsControler {
     
     static func fetchModelsFor(_ id: Int, completion: @escaping (Result<[VehicleModel],ModelsError>) -> Void) {
         
-        guard id >= lowerBound && id <= upperBound else { return completion(.failure(.idOutOfRange)) }
+        guard id >= lowerBound && id <= upperBound else { return completion(.failure(.idOutOfRange(id))) }
         
         let baseString = "https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMakeId/"
         let baseURL = URL(string: baseString)

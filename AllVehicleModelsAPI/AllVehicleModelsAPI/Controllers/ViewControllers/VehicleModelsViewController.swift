@@ -29,6 +29,7 @@ class VehicleModelsViewController: UIViewController {
     
     var models: [(String,Bool)] = []
     
+    var idPool = Set<Int>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -123,10 +124,17 @@ extension VehicleModelsViewController: UITableViewDataSource, UITableViewDelegat
 // MARK: - Helper Functions
 extension VehicleModelsViewController {
     
-    ///there are 9746 makes available from the NHTSA, only generate random ids based on the well known brands
-    func generateRandomIDInRange() -> Int{
-        let targetSet: Set<Int> = [440,441,442,444,448,449,452,460,469,474,475,480,483,485,515,523,582,584,]
-        guard let id = targetSet.randomElement() else { return 1 }
+    ///there are 9746 makes available from the NHTSA, only generate random ids based on the well known brands, some brands are just too hard, Using idPool to avoid repeated elements unitl whole target set finished
+    func generateRandomIDInRange() -> Int {
+        let targetSet: Set<Int> = [440,441,442,444,448,449,452,460,469,474,475,480,483,485,515,523,582,584]
+        
+        if idPool.isEmpty {idPool = targetSet}
+        
+        guard let id = idPool.randomElement(), let _ = idPool.remove(id) else {
+            print("Unexpected case in \(#function), line \(#line)")
+            return 440
+        }
+        
         return id
         
     }
