@@ -77,7 +77,7 @@
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XJ3-dc-XOJ">
                                         <rect key="frame" x="0.0" y="56" width="328" height="48"/>
                                         <color key="backgroundColor" systemColor="systemOrangeColor"/>
-                                        <state key="normal" title="Show All">
+                                        <state key="normal" title="Give Up">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
