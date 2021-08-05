@@ -207,7 +207,7 @@ extension VehicleModelsViewController {
         guard let kbSize = (notifaction.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
               self.view.frame.origin.y == 0 else { return }
         
-        self.view.frame.origin.y -= (kbSize.height - 150)
+        self.view.frame.origin.y -= (kbSize.height - 50)
     }
     
     @objc func kbWillHide(notifaction: NSNotification) {
