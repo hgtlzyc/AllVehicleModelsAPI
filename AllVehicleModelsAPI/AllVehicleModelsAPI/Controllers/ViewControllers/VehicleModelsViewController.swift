@@ -125,7 +125,7 @@ extension VehicleModelsViewController: UITableViewDataSource, UITableViewDelegat
 extension VehicleModelsViewController {
     
     ///there are 9746 makes available from the NHTSA, only generate random ids based on the well known brands, some brands are just too hard, Using idPool to avoid repeated elements unitl whole target set finished
-    func generateRandomIDInRange() -> Int {
+    func generateRandomIDInRange(idPool: inout Set<Int>) -> Int {
         let targetSet: Set<Int> = [440,441,442,444,448,449,452,460,469,474,475,480,483,485,515,523,582,584]
         
         if idPool.isEmpty {idPool = targetSet}
@@ -145,7 +145,7 @@ extension VehicleModelsViewController {
         VehicleModelsControler.cancelAllPendingTasks()
         setViewsForCurrentlyLoading(reloadTable: reloadTable)
         
-        let nextID = generateRandomIDInRange()
+        let nextID = generateRandomIDInRange(idPool: &idPool)
         VehicleModelsControler.fetchModelsFor(nextID) { [weak self] result in
             switch result {
             case .success(let models):
