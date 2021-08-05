@@ -1,4 +1,4 @@
-# Quizz App based on data from NHTSA API 
+# Quiz App based on data from NHTSA API 
 ![](https://github.com/hgtlzyc/AllVehicleModelsAPI/blob/c4d9fea06c1b46a759db85939296e5dd5a1e39c4/nhtsaAPIScreenCapture.gif)
 <br/>
 - UIKit 
