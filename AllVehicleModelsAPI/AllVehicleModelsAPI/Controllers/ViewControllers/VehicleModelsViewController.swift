@@ -61,6 +61,7 @@ class VehicleModelsViewController: UIViewController {
         checkUserAnswerButton.layer.cornerRadius = 15
         showAllButton.layer.cornerRadius = 15
         nextQuestionButton.layer.cornerRadius = 15
+        statusLabel.layer.cornerRadius = 3
     }
 
     
@@ -186,7 +187,15 @@ extension VehicleModelsViewController {
     
     func putTextFieldTextInViewModel(_ text: String) {
         let userAnswerText = generateFilteredString(text)
-        viewModel.newUserAnswered(userAnswerText)
+        
+        
+        switch viewModel.newUserAnswered(userAnswerText) {
+        case true:
+            animateStatusLabelWith(#colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1))
+        case false:
+            animateStatusLabelWith(#colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 0.5985597364))
+        }
+        
         pullDataFromViewModel(.userCorrectAnswers)
         
         answerInputTF.text = ""
@@ -249,5 +258,20 @@ extension VehicleModelsViewController {
         self.view.frame.origin.y = 0
     }
     
+    
+    //MARK: -AnmationHelper
+    func animateStatusLabelWith(_ color: UIColor) {
+        let baseColor = statusLabel.layer.backgroundColor
+        
+        UIView.animate(withDuration: 0.5) {
+            UIView.modifyAnimations(withRepeatCount: 1, autoreverses: true) {
+                self.statusLabel.layer.backgroundColor = color.cgColor
+            }
+        }completion: { isFinished in
+            guard isFinished else { return }
+            self.statusLabel.layer.backgroundColor = baseColor
+        }
+        
+    }//End Of func
     
 }//End Of Extension

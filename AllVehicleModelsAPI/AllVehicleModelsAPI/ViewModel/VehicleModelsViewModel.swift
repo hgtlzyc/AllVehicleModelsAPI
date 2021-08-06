@@ -38,8 +38,10 @@ class VehicleModelsViewModel {
         makeName = nil
     }
     
-    func newUserAnswered(_ string: String) {
+    ///returns bool indicates if the user answer is correct, also put the string in the user answered set
+    func newUserAnswered(_ string: String) -> Bool {
         userAnswered.insert(string)
+        return targetAnswers.contains(string)
     }
     
     func setCorrectAnswers(_ answerArr: [String]) {
