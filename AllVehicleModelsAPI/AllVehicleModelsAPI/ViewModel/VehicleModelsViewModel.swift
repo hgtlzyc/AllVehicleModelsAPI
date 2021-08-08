@@ -14,6 +14,7 @@ class VehicleModelsViewModel {
     var makeName: String?
     
     // MARK: - read
+    //Strings
     var statusString: String {
         let correntlyAnsweredCount = targetAnswers.intersection(userAnswered).count
         let totalTriesCount = userAnswered.count
@@ -31,6 +32,11 @@ class VehicleModelsViewModel {
         return baseSetSortAndMap(correntlyAnsweredSet, status: true) + baseSetSortAndMap(currentlyWrongSet, status: false)
     }
     
+    //Ints
+    var worngAnswersCount: Int {
+        return targetAnswers.subtracting(userAnswered).count
+    }
+    
     // MARK: - write
     func resetForNextQuestion(){
         userAnswered = Set<String>()
@@ -38,7 +44,7 @@ class VehicleModelsViewModel {
         makeName = nil
     }
     
-    ///returns bool indicates if the user answer is correct, also put the string in the user answered set
+    ///put the string in the user answered set, returns bool indicates if the user answer is correct
     func newUserAnswered(_ string: String) -> Bool {
         userAnswered.insert(string)
         return targetAnswers.contains(string)

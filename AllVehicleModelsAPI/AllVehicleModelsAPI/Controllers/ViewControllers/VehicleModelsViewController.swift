@@ -75,6 +75,9 @@ class VehicleModelsViewController: UIViewController {
     @IBAction func showAllButonTapped(_ sender: Any) {
         models = viewModel.sortedAllCorrectAndWrongAnswers
         pullDataFromViewModel(.allTargetAnswers)
+        
+        animateStatusLabelBasedOn( viewModel.worngAnswersCount == 0 )
+        
     }
     
     @IBAction func nextButtonTapped(_ sender: Any) {
@@ -112,9 +115,7 @@ extension VehicleModelsViewController: UITableViewDataSource, UITableViewDelegat
         
         let backgroundColor = models[indexPath.row].1 ? #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1) : #colorLiteral(red: 0.9411764741, green: 0.4980392158, blue: 0.3529411852, alpha: 1)
         
-       
         cell.contentView.backgroundColor = backgroundColor
-        
         
         return cell
     }
@@ -184,17 +185,10 @@ extension VehicleModelsViewController {
     
     
     // MARK: - VM helpers
-    
     func putTextFieldTextInViewModel(_ text: String) {
         let userAnswerText = generateFilteredString(text)
         
-        
-        switch viewModel.newUserAnswered(userAnswerText) {
-        case true:
-            animateStatusLabelWith(#colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1))
-        case false:
-            animateStatusLabelWith(#colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 0.5985597364))
-        }
+        animateStatusLabelBasedOn( viewModel.newUserAnswered(userAnswerText) )
         
         pullDataFromViewModel(.userCorrectAnswers)
         
@@ -260,18 +254,49 @@ extension VehicleModelsViewController {
     
     
     //MARK: -AnmationHelper
-    func animateStatusLabelWith(_ color: UIColor) {
+    func animateStatusLabelBasedOn(_ isCorrect: Bool ) {
         let baseColor = statusLabel.layer.backgroundColor
+        let duration = 0.5
+        var tempColor: UIColor!
+        var affineTransform: CGAffineTransform?
         
-        UIView.animate(withDuration: 0.5) {
+        switch isCorrect {
+        case true:
+            tempColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+            affineTransform = CGAffineTransform(scaleX: 1.05, y: 1.05)
+            
+        case false:
+            tempColor = #colorLiteral(red: 1, green: 0.2897925377, blue: 0.2962183654, alpha: 0.6548947704)
+            affineTransform = nil
+            ///extension in CALayer, keyframeAnimation using keypath
+            statusLabel.layer.shake(withDuration: duration)
+        }
+
+        UIView.animate(withDuration: duration) {
             UIView.modifyAnimations(withRepeatCount: 1, autoreverses: true) {
-                self.statusLabel.layer.backgroundColor = color.cgColor
+                self.statusLabel.layer.backgroundColor = tempColor.cgColor
+                if let trans = affineTransform {
+                    self.statusLabel.transform = trans
+                }
             }
-        }completion: { isFinished in
-            guard isFinished else { return }
+           
+        }completion: { _ in
             self.statusLabel.layer.backgroundColor = baseColor
+            self.statusLabel.transform = CGAffineTransform.identity
+            self.statusLabel.layer.removeAllAnimations()
         }
         
-    }//End Of func
+    }//End Of animateStatusLabel
     
 }//End Of Extension
+
+// MARK: - Animation Helper, File Private
+fileprivate extension CALayer {
+    func shake( withDuration: Double ) {
+        let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
+        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
+        animation.duration = withDuration
+        animation.values = [-10.0, 10.0, -5.0, 5.0, 0.0 ]
+        self.add(animation, forKey: "shake")
+    }
+}
