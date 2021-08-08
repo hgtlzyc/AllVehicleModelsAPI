@@ -254,19 +254,21 @@ extension VehicleModelsViewController {
     
     
     //MARK: -AnmationHelper
-    func animateStatusLabelBasedOn(_ isCorrect: Bool ) {
+    func animateStatusLabelBasedOn(_ isCorrect: Bool,
+                                   colorForCorrect: UIColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1),
+                                   colorForWrong:UIColor = #colorLiteral(red: 1, green: 0.2897925377, blue: 0.2962183654, alpha: 0.6548947704),
+                                   duration: Double = 0.5) {
         let baseColor = statusLabel.layer.backgroundColor
-        let duration = 0.5
         var tempColor: UIColor!
         var affineTransform: CGAffineTransform?
         
         switch isCorrect {
         case true:
-            tempColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
+            tempColor = colorForCorrect
             affineTransform = CGAffineTransform(scaleX: 1.05, y: 1.05)
             
         case false:
-            tempColor = #colorLiteral(red: 1, green: 0.2897925377, blue: 0.2962183654, alpha: 0.6548947704)
+            tempColor = colorForWrong
             affineTransform = nil
             ///extension in CALayer, keyframeAnimation using keypath
             statusLabel.layer.shake(withDuration: duration)
