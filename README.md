@@ -1,4 +1,7 @@
 # Quiz App based on data from NHTSA API 
+[Go To My Resume](https://github.com/hgtlzyc/Resume/blob/main/README.md)
+<br />
+
 ![](https://github.com/hgtlzyc/AllVehicleModelsAPI/blob/7ff7611ec3cbc466874f06001e136fab7018f015/screenCapture.gif)
 <br/>
 - MVVM
