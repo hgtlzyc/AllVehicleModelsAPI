@@ -282,10 +282,10 @@ extension VehicleModelsViewController {
                 }
             }
            
-        }completion: { _ in
-            self.statusLabel.layer.backgroundColor = baseColor
-            self.statusLabel.transform = CGAffineTransform.identity
-            self.statusLabel.layer.removeAllAnimations()
+        } completion: { [weak self] _ in
+            self?.statusLabel.layer.backgroundColor = baseColor
+            self?.statusLabel.transform = CGAffineTransform.identity
+            self?.statusLabel.layer.removeAllAnimations()
         }
         
     }//End Of animateStatusLabel
